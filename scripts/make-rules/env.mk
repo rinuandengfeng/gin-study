@@ -3,6 +3,7 @@ GO := go
 GOOS = $(shell $(GO) env GOOS)
 FIND := find
 GIT := git
+DOCKER := docker
 
 COMMON_SELF_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
 ROOT_DIR := $(abspath $(shell cd $(COMMON_SELF_DIR)/../.. && pwd -P))
@@ -14,3 +15,4 @@ ifeq ($(GOOS),windows)
 endif
 
 OUTPUT_DIR := $(ROOT_DIR)/_output
+DOCKER_DIR := $(ROOT_DIR)/docker

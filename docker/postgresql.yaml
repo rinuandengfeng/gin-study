@@ -1,0 +1,20 @@
+services:
+  postgresql:
+    image: docker.io/bitnami/postgresql:17
+    container_name: postgresql
+    hostname: postgresql
+    ports:
+      - '5432:5432'
+    volumes:
+      - './data/postgresql:/bitnami/postgresql'
+    environment:
+      POSTGRESQL_USERNAME: root
+      POSTGRESQL_PASSWORD: 123456
+      POSTGRESQL_DATABASE: study
+    networks:
+      - gin-study
+
+networks:
+  gin-study:
+    driver: bridge
+    name: gin-study

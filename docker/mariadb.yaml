@@ -1,0 +1,32 @@
+services:
+  mariadb:
+    image: bitnami/mariadb:11.4
+    container_name: mariadb
+    hostname: mariadb
+    environment:
+      MARIADB_REPLICATION_MODE: master
+      MARIADB_REPLICATION_USER: repl_user
+      MARIADB_REPLICATION_PASSWORD: repl_user_password
+      MARIADB_ROOT_PASSWORD: 123456
+      MARIADB_DATABASE: study # 首次运行时创建数据库
+      MARIADB_USER: study
+      MARIADB_PASSWORD: password
+    ports:
+      - '3306:3306'
+    volumes:
+      - './conf/mariadb/my.cnf:/opt/bitnami/mariadb/conf/my_custom.cnf:ro'
+      - './data/mariadb/master:/bitnami/mariadb'
+    healthcheck:
+      test: ['CMD', '/opt/bitnami/scripts/mariadb/healthcheck.sh']
+      interval: 15s # 间隔
+      timeout: 5s # 超时
+      retries: 6 # 重试
+    networks:
+      - gin-study
+
+networks:
+  gin-study:
+    driver: bridge
+    name: gin-study
+
+# docker exec -it mariadb mysqldumpslow 查询慢日志

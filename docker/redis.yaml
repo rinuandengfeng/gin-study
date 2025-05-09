@@ -1,0 +1,19 @@
+services:
+  redis:
+    image: bitnami/redis:7.4
+    container_name: redis
+    hostname: redis
+    environment:
+      REDIS_PASSWORD: 123456
+      REDIS_DISABLE_COMMANDS: FLUSHDB,FLUSHALL
+    ports:
+      - '6379:6379'
+    volumes:
+      - './data/redis:/bitnami/redis/data'
+    networks:
+      - gin-study
+
+networks:
+  gin-study:
+    driver: bridge
+    name: gin-study
