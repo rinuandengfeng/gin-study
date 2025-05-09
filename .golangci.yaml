@@ -630,6 +630,9 @@ output:
       print-linter-name: true
       print-issued-lines: true
       colors: true
+    tab:
+      path: ./_output/lint/output.txt
+      colors: false
     # 输出到html
     html:
       path: ./_output/lint/output.html

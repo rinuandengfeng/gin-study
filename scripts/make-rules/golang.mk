@@ -4,3 +4,8 @@
 go.lint: tools.verify.golangci-lint
 	@echo "===========> 运行 golangci 进行静态代码检查"
 	golangci-lint run -c $(ROOT_DIR)/.golangci.yaml $(ROOT_DIR)/...
+
+## go.tidy: 执行 go mod tidy
+.PHONY: go.tidy
+go.tidy:
+	$(GO) mod tidy
