@@ -1,0 +1,6 @@
+.idea
+docker/data
+_output/
+logs/
+report.xml
+docker/conf/ollama/qwen2.53b
