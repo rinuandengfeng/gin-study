@@ -1,0 +1,64 @@
+basePath: /v1
+definitions:
+  user.SendCodeRequest:
+    properties:
+      mobile:
+        description: 手机号
+        type: string
+      type:
+        allOf:
+        - $ref: '#/definitions/user.SendCodeType'
+        description: '@param type body string true "发送验证码类型" Enums(login, register)
+          default(login)'
+    required:
+    - mobile
+    - type
+    type: object
+  user.SendCodeResponse:
+    properties:
+      code:
+        description: 验证码
+        type: string
+    type: object
+  user.SendCodeType:
+    enum:
+    - login
+    type: string
+    x-enum-varnames:
+    - SendCodeTypeLogin
+host: localhost:8000
+info:
+  contact: {}
+  description: 使用gin框架学习web开发时会使用到的功能.
+  title: gin学习项目
+  version: "1.0"
+paths:
+  /user/send/code:
+    post:
+      consumes:
+      - application/json
+      description: 根据不同的请求类型发送短信验证码
+      parameters:
+      - description: 发送验证码请求
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/user.SendCodeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.SendCodeResponse'
+      summary: 短信验证码
+      tags:
+      - user
+securityDefinitions:
+  ApiKeyAuth:
+    description: 使用token传递用户认证信息
+    in: header
+    name: token
+    type: apiKey
+swagger: "2.0"

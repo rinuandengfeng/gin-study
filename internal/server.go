@@ -1,16 +1,18 @@
-package user
+package internal
 
 import (
 	"context"
 
+	"github.com/gin-gonic/gin/binding"
 	"github.com/redis/go-redis/v9"
 	"github.com/spf13/viper"
 	"gorm.io/gorm"
 
-	"gin-study/internal/pkg/core"
-	"gin-study/internal/pkg/options"
+	"gin-study/pkg/app/core"
+	"gin-study/pkg/app/options"
 	"gin-study/pkg/logger"
 	"gin-study/pkg/utils"
+	"gin-study/pkg/validate"
 )
 
 type (
@@ -73,6 +75,11 @@ func (apiServ *apiServer) init() error {
 	}
 
 	if apiServ.Redis, err = apiServ.option.Redis.NewClient(apiServ.Logger); err != nil {
+		return err
+	}
+
+	// 绑定自定义验证器
+	if binding.Validator, err = validate.NewValidator(); err != nil {
 		return err
 	}
 

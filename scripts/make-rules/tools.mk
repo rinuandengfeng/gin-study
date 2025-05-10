@@ -1,5 +1,5 @@
 # 安装项目依赖工具
-TOOLS ?= golangci-lint
+TOOLS ?= golangci-lint swag
 
 ## tools.install: 安装所有工具
 .PHONY: tools.install
@@ -22,3 +22,7 @@ tools.verify.%:
 install.golangci-lint:
 	@$(GO) install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.1.2
 
+# 安装swagger生成器
+.PHONY: install.swag
+install.swag:
+	$(GO) install github.com/swaggo/swag/cmd/swag@latest

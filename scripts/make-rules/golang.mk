@@ -8,4 +8,14 @@ go.lint: tools.verify.golangci-lint
 ## go.tidy: 执行 go mod tidy
 .PHONY: go.tidy
 go.tidy:
-	$(GO) mod tidy
+	@$(GO) mod tidy
+
+## go.swag.fmt: 格式化swag注释信息
+.PHONY: go.swag.fmt
+go.swag.fmt: tools.verify.swag
+	swag fmt -d ./ --exclude ./pkg,./scripts
+
+## go.swag.gen: 生成swag文档
+.PHONY: go.swag.gen
+go.swag.gen: tools.verify.swag
+	swag init -o $(ROOT_DIR)/api

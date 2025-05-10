@@ -1,4 +1,4 @@
-package user
+package internal
 
 import (
 	"context"
@@ -7,12 +7,21 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
+
+	_ "gin-study/api"
+	"gin-study/internal/controller/user"
+	"gin-study/internal/middleware"
 )
 
 // 初始化 gin 路由.
 func initRouter(ctx context.Context, apiServ *apiServer) {
 	r := gin.New()
 	gin.SetMode(apiServ.option.Server.RunMode)
+
+	registerRouter(r, apiServ)
 
 	server := &http.Server{
 		Addr:           apiServ.option.Server.Address,
@@ -40,4 +49,21 @@ func initRouter(ctx context.Context, apiServ *apiServer) {
 
 		apiServ.Logger.Info(nCtx, "http服务已关闭")
 	})
+}
+
+func registerRouter(r *gin.Engine, apiServ *apiServer) {
+	if apiServ.option.Server.RunMode == gin.DebugMode {
+		r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	}
+
+	r.Use(middleware.Recovery(apiServ.Logger), middleware.Cors(), middleware.RequestLog(apiServ.Logger))
+
+	apiv1 := r.Group("/v1")
+	{
+		userv1 := apiv1.Group("/user")
+		{
+			userCon := user.NewController()
+			userv1.POST("/send/code", userCon.SendCode)
+		}
+	}
 }

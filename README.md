@@ -18,4 +18,11 @@
 
 容器启动的命令在 scripts/make-rules/docker.mk 中, 可以通过`make help`查看docker相关的命令
 
+# 使用swag生成api文档
+[swag文档](https://github.com/swaggo/swag/tree/master/example/celler#parameterType)
 
+- 使用 `make install.swag` 命令进行安装
+- 使用 `make go.swag.fmt` 对api相关注释进行格式化
+- 使用 `make go.swag.gen` 生成api文档
+
+> 当使用 `make go.lint` 进行静态代码检查时， 可能会删除部分 swag 注释，在做处理时请多注意

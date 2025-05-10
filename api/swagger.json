@@ -1,0 +1,96 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "使用gin框架学习web开发时会使用到的功能.",
+        "title": "gin学习项目",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:8000",
+    "basePath": "/v1",
+    "paths": {
+        "/user/send/code": {
+            "post": {
+                "description": "根据不同的请求类型发送短信验证码",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "短信验证码",
+                "parameters": [
+                    {
+                        "description": "发送验证码请求",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user.SendCodeRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/user.SendCodeResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "user.SendCodeRequest": {
+            "type": "object",
+            "required": [
+                "mobile",
+                "type"
+            ],
+            "properties": {
+                "mobile": {
+                    "description": "手机号",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "@param type body string true \"发送验证码类型\" Enums(login, register) default(login)",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/user.SendCodeType"
+                        }
+                    ]
+                }
+            }
+        },
+        "user.SendCodeResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "验证码",
+                    "type": "string"
+                }
+            }
+        },
+        "user.SendCodeType": {
+            "type": "string",
+            "enum": [
+                "login"
+            ],
+            "x-enum-varnames": [
+                "SendCodeTypeLogin"
+            ]
+        }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "description": "使用token传递用户认证信息",
+            "type": "apiKey",
+            "name": "token",
+            "in": "header"
+        }
+    }
+}
