@@ -7,8 +7,8 @@ type Controller struct {
 }
 
 // NewController 获取用户控制器.
-func NewController() *Controller {
+func NewController(userService user.Server) *Controller {
 	return &Controller{
-		UserService: user.NewService(),
+		UserService: userService,
 	}
 }

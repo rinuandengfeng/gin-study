@@ -1,8 +1,9 @@
 package main
 
 import (
-	"gin-study/internal"
 	"log"
+
+	"gin-study/internal"
 )
 
 // main 程序入口

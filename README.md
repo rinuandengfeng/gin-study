@@ -26,3 +26,10 @@
 - 使用 `make go.swag.gen` 生成api文档
 
 > 当使用 `make go.lint` 进行静态代码检查时， 可能会删除部分 swag 注释，在做处理时请多注意
+
+# 使用mock模拟外部依赖
+单元测试中不允许有外部依赖，也就是说外部依赖都需要被模拟，我们使用 mock 工具来进行外部依赖模拟
+
+- 使用 `make install.mockgen` 安装 mockgen
+- 查看 `internal/service/user/user.go`文件中 `go:generate` 命令， 这个是用来生成 mock 依赖的
+- 查看 `internal/controller/user/send_code_test.go`文件， 使用mock依赖来进行数据模拟交互

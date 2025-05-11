@@ -14,6 +14,7 @@ import (
 	_ "gin-study/api"
 	"gin-study/internal/controller/user"
 	"gin-study/internal/middleware"
+	userServ "gin-study/internal/service/user"
 )
 
 // 初始化 gin 路由.
@@ -62,7 +63,7 @@ func registerRouter(r *gin.Engine, apiServ *apiServer) {
 	{
 		userv1 := apiv1.Group("/user")
 		{
-			userCon := user.NewController()
+			userCon := user.NewController(userServ.NewService())
 			userv1.POST("/send/code", userCon.SendCode)
 		}
 	}

@@ -1,5 +1,5 @@
 # 安装项目依赖工具
-TOOLS ?= golangci-lint swag
+TOOLS ?= golangci-lint swag mockgen
 
 ## tools.install: 安装所有工具
 .PHONY: tools.install
@@ -26,3 +26,8 @@ install.golangci-lint:
 .PHONY: install.swag
 install.swag:
 	$(GO) install github.com/swaggo/swag/cmd/swag@latest
+
+# 安装mock工具生成单元测试依赖代码
+.PHONY: install.mockgen
+install.mockgen:
+	@$(GO) install go.uber.org/mock/mockgen@latest
