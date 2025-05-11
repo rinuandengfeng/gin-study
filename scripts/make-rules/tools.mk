@@ -1,5 +1,5 @@
 # 安装项目依赖工具
-TOOLS ?= golangci-lint swag mockgen
+TOOLS ?= golangci-lint swag mockgen go-junit-report
 
 ## tools.install: 安装所有工具
 .PHONY: tools.install
@@ -31,3 +31,8 @@ install.swag:
 .PHONY: install.mockgen
 install.mockgen:
 	@$(GO) install go.uber.org/mock/mockgen@latest
+
+# 安装 将 go test 输出转换为xml工具
+.PHONY: install.go-junit-report
+install.go-junit-report:
+	@$(GO) install github.com/jstemmer/go-junit-report@latest

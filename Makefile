@@ -8,7 +8,7 @@ include ./scripts/make-rules/tools.mk
 
 ## all: 执行静态代码检查
 .PHONY: all
-all: go.tidy go.lint
+all: go.swag.fmt go.tidy go.lint go.test.cover
 
 ## clean: 清除生成到 OUTPUT_DIR 文件夹下的文件
 .PHONY: clean
@@ -21,4 +21,4 @@ help:
 	@printf "\n使用: make <TARGETS> \n\n命令:\n"
 	@sed -n 's/^##//p' Makefile | column -t -s ':' | sed -e 's/^/ /'
 	@$(FIND) ./scripts/make-rules -name "*.mk" | xargs sed -n 's/^##//p' | column -t -s ':' | sed -e 's/^/ /'
-
+	@echo "$$USAGE_OPTIONS"

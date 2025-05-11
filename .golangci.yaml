@@ -219,7 +219,7 @@ linters:
           - FIXME
           - OPTIMIZE
           - HACK
-          - TODO
+#          - TODO
 
       gomoddirectives:
         replace-local: true
