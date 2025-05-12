@@ -1,4 +1,5 @@
 
+## :
 ## go.lint: 静态代码检查
 .PHONY: go.lint
 go.lint: tools.verify.golangci-lint
@@ -35,7 +36,8 @@ go.test: tools.verify.go-junit-report
 	@$(GO) tool cover -html=$(OUTPUT_DIR)/coverage.out -o $(OUTPUT_DIR)/coverage.html
 
 
-## go.test.cover: 单元测试覆盖率判断, 覆盖率默认60, 使用COVERAGE进行修改。 例：make go.test.conver COVERAGE=50
+## go.test.cover: 单元测试覆盖率判断, 覆盖率默认60, 使用COVERAGE进行修改。
+## : 例：make go.test.conver COVERAGE=50
 .PHONY: go.test.cover
 go.test.cover: go.test
 	@$(GO) tool cover -func=$(OUTPUT_DIR)/coverage.out  | awk -v target=$(COVERAGE) -f $(ROOT_DIR)/scripts/coverage.awk

@@ -1,6 +1,7 @@
 # 安装项目依赖工具
 TOOLS ?= golangci-lint swag mockgen go-junit-report
 
+## :
 ## tools.install: 安装所有工具
 .PHONY: tools.install
 tools.install: $(addprefix tools.install.,$(TOOLS))

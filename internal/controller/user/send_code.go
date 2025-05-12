@@ -1,6 +1,8 @@
 package user
 
 import (
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 
 	"gin-study/internal/service/user"
@@ -26,6 +28,11 @@ func (c *Controller) SendCode(ctx *gin.Context) {
 		app.Error(err)
 
 		return
+	}
+
+	q := ""
+	for i := range 100001 {
+		q += strconv.Itoa(i)
 	}
 
 	res, err := c.UserService.SendCode(ctx, req)

@@ -7,29 +7,41 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 	"go.uber.org/mock/gomock"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 )
 
-func TestSendCode(t *testing.T) {
-	ctrl := gomock.NewController(t)
-	defer ctrl.Finish()
+type SendCodeSuite struct {
+	suite.Suite
+	ctrl     *gomock.Controller
+	userServ *user.MockServer
+	userCont *Controller
+}
+
+func (s *SendCodeSuite) SetupSuite() {
+	gin.SetMode(gin.TestMode)
+	s.ctrl = gomock.NewController(s.T())
 
 	var err error
 	binding.Validator, err = validate.NewValidator()
-	if err != nil {
-		t.Fatal(err)
-	}
+	s.Require().NoError(err, nil)
 
-	mockService := user.NewMockServer(ctrl)
-	mockService.EXPECT().SendCode(gomock.Any(), gomock.Eq(&user.SendCodeRequest{
+	s.userServ = user.NewMockServer(s.ctrl)
+	s.userCont = NewController(s.userServ)
+}
+
+func (s *SendCodeSuite) TearDownSuite() {
+	s.ctrl.Finish()
+}
+
+func (s *SendCodeSuite) TestSendCode() {
+	s.userServ.EXPECT().SendCode(gomock.Any(), gomock.Eq(&user.SendCodeRequest{
 		Mobile: "13444444444",
 		Type:   user.SendCodeTypeLogin,
 	})).Return(&user.SendCodeResponse{Code: "123456"}, nil)
-
-	userController := NewController(mockService)
 
 	ctx, _ := gin.CreateTestContext(httptest.NewRecorder())
 	body := bytes.NewBufferString(`{"mobile":"13444444444", "type":"login"}`)
@@ -37,7 +49,10 @@ func TestSendCode(t *testing.T) {
 	ctx.Params = gin.Params{{"mobile", "13444444444"}, {"code", "123456"}}
 	ctx.Request.Header.Set("Content-Type", "application/json")
 
-	userController.SendCode(ctx)
-	assert.Equal(t, http.StatusOK, ctx.Writer.Status(), "状态返回应该为200")
+	s.userCont.SendCode(ctx)
+	assert.Equal(s.T(), http.StatusOK, ctx.Writer.Status(), "状态返回应该为200")
+}
 
+func TestSendCodeSuite(t *testing.T) {
+	suite.Run(t, new(SendCodeSuite))
 }

@@ -2,6 +2,7 @@
 #postgresql
 DOCKERS := mariadb redis
 
+## :
 ## docker.all: 启动所有容器
 .PHONY: docker.all
 docker.all: $(addprefix docker.,$(DOCKERS))

@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"
 
 	swaggerFiles "github.com/swaggo/files"
@@ -53,13 +54,13 @@ func initRouter(ctx context.Context, apiServ *apiServer) {
 }
 
 func registerRouter(r *gin.Engine, apiServ *apiServer) {
+	pprof.Register(r, "/debug/pprof") // 注册 pprof
 	if apiServ.option.Server.RunMode == gin.DebugMode {
 		r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	}
 
-	r.Use(middleware.Recovery(apiServ.Logger), middleware.Cors(), middleware.RequestLog(apiServ.Logger))
-
 	apiv1 := r.Group("/v1")
+	apiv1.Use(middleware.Recovery(apiServ.Logger), middleware.Cors(), middleware.RequestLog(apiServ.Logger))
 	{
 		userv1 := apiv1.Group("/user")
 		{

@@ -3,7 +3,8 @@
 
 # 目录
 [1. 使用makefile管理项目](./docs/使用makefile管理项目.md)  
-[2. git提交规范限制](./docs/git提交规范限制.md)
+[2. git提交规范限制](./docs/git提交规范限制.md)  
+[3. 使用pprof进行性能分析](./docs/使用pprof进行性能分析.md)
 
 # 使用golangci-lint进行静态代码检查
 [golangci官方文档](https://golangci-lint.run/)
